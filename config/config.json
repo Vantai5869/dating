@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "shopping",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port":"3307"
+  },
+
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "dating",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
