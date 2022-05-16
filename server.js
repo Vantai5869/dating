@@ -11,16 +11,16 @@ global.__basedir = __dirname;
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Declare DB
-const { sequelize } = require(__basedir + '/models');
-
 // Declaring Modules
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const app = express();
+const http = require('http').createServer(app)
+
 
 /** MIDDLEWARES */
 
@@ -36,21 +36,17 @@ app.use(cookieParser());
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Session
-
-/** IMPORT ROUTES */
-
-// authentication route
-const rAuth = require(__basedir + '/routes/auth');
-
-/** ROUTES */
-
-// authentication route middleware
-app.use('/api/auth', rAuth);
+const URI = process.env.MONGODB_URL
+mongoose.connect(URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, err => {
+    if(err) throw err;
+    console.log('Connected to mongodb')
+})
 
 /** RUN THE API ON PORT */
-app.listen(process.env.PORT||5000, async () => {
-    console.log('local server is running on port', 5000);
-    await sequelize.authenticate();
-    console.log('database is connected');
-});
+const port = process.env.PORT || 5000
+http.listen(port, () => {
+    console.log('Server is running on port', port)
+})

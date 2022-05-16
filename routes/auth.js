@@ -1,22 +1,13 @@
-/**
- * author: larry amiel tablando
- * link: github.com/larryamiel
- * description: exporting the router for the authentication routes.
- */
+const router = require('express').Router()
+const authCtrl = require('../controllers/auth')
 
-const router = require('express').Router();
-const AuthService = require(__basedir + '/services/AuthService');
+router.post('/register', authCtrl.register)
 
-// Register Route
-router.post('/register', AuthService.register);
+router.post('/login', authCtrl.login)
 
-// Login Route
-router.post('/login', AuthService.login);
+router.post('/logout', authCtrl.logout)
 
-// // Authenticated Route
-// router.get('/authenticate', AuthService.authenticate);
+router.post('/refresh_token', authCtrl.generateAccessToken)
 
-// // Login Route
-// router.post('/logout', AuthService.logout);
 
-module.exports = router;
+module.exports = router
