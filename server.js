@@ -36,6 +36,22 @@ app.use(cookieParser());
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+/** IMPORT ROUTES */
+
+// authentication route
+const rAuth= require(__basedir + '/routes/auth');
+const rPost = require(__basedir + '/routes/post');
+const rUser = require(__basedir + '/routes/user');
+
+/** ROUTES */
+
+app.use('/api/auth', rAuth);
+app.use('/api/post', rPost);
+app.use('/api/user', rUser);
+
+
+
 const URI = process.env.MONGODB_URL
 mongoose.connect(URI, {
     useNewUrlParser: true,

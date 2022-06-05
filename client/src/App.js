@@ -4,7 +4,7 @@ import axios from 'axios';
 function App() {
   useEffect(()=>{
     const get= async()=>{
-      const res = await axios.get('/api/');
+      const res = await axios.get('/api/user/test');
       console.log(res)
     }
     get()
