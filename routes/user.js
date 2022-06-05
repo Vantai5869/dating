@@ -3,6 +3,10 @@ const auth = require("../middlewares/auth")
 const userCtrl = require("../controllers/user")
 
 
+router.get('/test',(req, res)=>{
+  res.send('hello api')
+})
+
 router.get('/search', auth, userCtrl.searchUser)
 
 router.get('/user/:id', auth, userCtrl.getUser)
