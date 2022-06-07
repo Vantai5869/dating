@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema({
         default: ''
     },
     about: {type: String, default: ''},
+    image: {type: String},
     interests: [{type: mongoose.Types.ObjectId, ref: 'interest'}],
 }, {
     timestamps: true

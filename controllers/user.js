@@ -1,6 +1,24 @@
 const Users = require('../models/user')
 
 const userCtrl = {
+    getAll: async (req, res) => {
+        let ageCond ={$gte: 0, $lte: 100}
+        if(req.query.minAge&& res.query.maxAge){
+            ageCond.$gte= req.query.minAge,
+            ageCond.$lte= req.query.maxAge
+        }
+        
+        try {
+            const users = await Users.find({
+                $and: [
+                    { age: ageCond },
+                ]})
+            
+            res.status(200).json(users)
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
     searchUser: async (req, res) => {
         try {
             const users = await Users.find({username: {$regex: req.query.username}})

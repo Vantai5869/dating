@@ -1,24 +1,18 @@
 import React,{useEffect} from 'react';
-import axios from 'axios';
+import axiosClient from './api/axiosClient';
+import AdminLayout from './layout/AdminLayout';
 
 function App() {
   useEffect(()=>{
     const get= async()=>{
-      const res = await axios.get('/api/user/test');
+      const res = await axiosClient.get('user/test');
       console.log(res)
     }
     get()
   },[])
   return (
     <div className="App">
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
-     <h1>HELLO</h1>
+     <AdminLayout/>
     </div>
   );
 }

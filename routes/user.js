@@ -7,6 +7,8 @@ router.get('/test',(req, res)=>{
   res.send('hello api')
 })
 
+router.get('/all', userCtrl.getAll)
+
 router.get('/search', auth, userCtrl.searchUser)
 
 router.get('/user/:id', auth, userCtrl.getUser)

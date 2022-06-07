@@ -27,6 +27,7 @@
     "mongoose": "^6.3.3",
     "mysql2": "^2.3.0",
     "nodemon": "^2.0.16",
+    "react-toastify": "^9.0.3",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
   }
