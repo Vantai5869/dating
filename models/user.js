@@ -35,7 +35,11 @@ const userSchema = new mongoose.Schema({
         default: ''
     },
     about: {type: String, default: ''},
-    image: {type: String},
+    avatar: {type: String},
+    active:  {
+        type: Boolean,
+        default: false
+    },
     interests: [{type: mongoose.Types.ObjectId, ref: 'interest'}],
 }, {
     timestamps: true

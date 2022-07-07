@@ -43,12 +43,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const rAuth= require(__basedir + '/routes/auth');
 const rPost = require(__basedir + '/routes/post');
 const rUser = require(__basedir + '/routes/user');
+const rSendMail = require(__basedir + '/routes/send-mail');
 
 /** ROUTES */
 
 app.use('/api/auth', rAuth);
 app.use('/api/post', rPost);
 app.use('/api/user', rUser);
+app.use('/api/send-mail', rSendMail);
 
 
 
