@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 import {config} from "./config";
 
 const axiosClient = axios.create({
-  baseURL: config.BASE_URL,
-  // baseURL: config.BASE_URL_LOCAL,
+  // baseURL: config.BASE_URL,
+  baseURL: config.BASE_URL_LOCAL,
   headers: {
     "Content-Type": "application/json",
   },

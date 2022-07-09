@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const interestSchema = new mongoose.Schema({
     text: String,
@@ -7,4 +7,4 @@ const interestSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('interest', interestSchema)
+export default mongoose.model('interest', interestSchema)

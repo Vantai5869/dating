@@ -109,6 +109,7 @@ const handleChangeImages = e => {
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
+              <TableCell>avatar</TableCell>
               <TableCell>username</TableCell>
               <TableCell align="center">email</TableCell>
               <TableCell align="center">role</TableCell>
@@ -126,6 +127,7 @@ const handleChangeImages = e => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{row?.id}</TableCell>
+                  <TableCell>{row?.avatar}</TableCell>
                   <TableCell>{row?.username}</TableCell>
                   <TableCell align="center">{row?.email}</TableCell>
                   <TableCell align="center">{row?.role}</TableCell>

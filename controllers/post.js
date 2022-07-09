@@ -1,5 +1,4 @@
-const Posts = require("../models/post");
-const Users = require("../models/user");
+import Posts from"../models/post.js"
 
 class APIfeatures {
     constructor(query, queryString) {
@@ -131,4 +130,4 @@ const postCtrl = {
     },
 };
   
-module.exports = postCtrl;
+export default postCtrl;

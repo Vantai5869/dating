@@ -1,11 +1,13 @@
-const router = require('express').Router()
-const auth = require("../middlewares/auth")
-const userCtrl = require("../controllers/user")
+import express from 'express';
+import auth from "../middlewares/auth.js"
+import userCtrl from"../controllers/user.js"
 
-
+const router = express.Router();
 router.get('/test',(req, res)=>{
   res.send('hello api')
 })
+
+router.post('/', userCtrl.register);
 
 router.get('/all', userCtrl.getAll)
 
@@ -22,4 +24,4 @@ router.get('/suggestionsUser', auth, userCtrl.suggestionsUser)
 
 
 
-module.exports = router
+export default  router;

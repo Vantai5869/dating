@@ -1,7 +1,7 @@
-const router = require('express').Router()
-const authCtrl = require('../controllers/auth')
-var nodemailer = require('nodemailer');
+import express from 'express';
+import nodemailer from'nodemailer'
 
+const router = express.Router();
 router.post('/', (req, res) => {
   const {email, content} = req.body
   var transporter = nodemailer.createTransport({
@@ -29,4 +29,5 @@ router.post('/', (req, res) => {
   });
 })
 
-module.exports = router
+
+export default  router;

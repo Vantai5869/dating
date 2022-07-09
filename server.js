@@ -1,25 +1,18 @@
-/**
- * author: larry amiel tablando
- * link: github.com/larryamiel
- * description: main index file for the API of chirodev
- */
 
-// Declaring Global Variables
-global.__basedir = __dirname;
-
-// Declaring Environment
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+import express from "express";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import cors from "cors";
+import mongoose from "mongoose";
+import http1 from'http';
+import rAuth from './routes/auth.js';
+import rPost from './routes/post.js';
+import rUser from './routes/user.js';
+import rSendMail from './routes/send-mail.js';
 dotenv.config();
-
-// Declaring Modules
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
-
 const app = express();
-const http = require('http').createServer(app)
+const http = http1.createServer(app)
 
 
 /** MIDDLEWARES */
@@ -37,20 +30,12 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-/** IMPORT ROUTES */
-
-// authentication route
-const rAuth= require(__basedir + '/routes/auth');
-const rPost = require(__basedir + '/routes/post');
-const rUser = require(__basedir + '/routes/user');
-const rSendMail = require(__basedir + '/routes/send-mail');
-
 /** ROUTES */
 
-app.use('/api/auth', rAuth);
-app.use('/api/post', rPost);
-app.use('/api/user', rUser);
-app.use('/api/send-mail', rSendMail);
+app.use('/api/v1/auth', rAuth);
+app.use('/api/v1/post', rPost);
+app.use('/api/v1/users', rUser);
+app.use('/api/v1/send-mail', rSendMail);
 
 
 
@@ -63,12 +48,12 @@ mongoose.connect(URI, {
     console.log('Connected to mongodb')
 })
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('client/build'))
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-    })
-}
+// if(process.env.NODE_ENV === 'production'){
+//     app.use(express.static('client/build'))
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+//     })
+// }
 
 /** RUN THE API ON PORT */
 const port = process.env.PORT || 5000
