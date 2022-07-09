@@ -13,8 +13,8 @@ import rSendMail from './routes/send-mail.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import path from 'path';
+const __dirname = path.resolve();
 dotenv.config();
 const app = express();
 const http = http1.createServer(app)
@@ -53,6 +53,7 @@ mongoose.connect(URI, {
     console.log('Connected to mongodb')
 })
 
+console.log('__dirname')
 console.log(__dirname)
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'))
