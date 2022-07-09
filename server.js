@@ -10,6 +10,11 @@ import rAuth from './routes/auth.js';
 import rPost from './routes/post.js';
 import rUser from './routes/user.js';
 import rSendMail from './routes/send-mail.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 dotenv.config();
 const app = express();
 const http = http1.createServer(app)
@@ -48,6 +53,7 @@ mongoose.connect(URI, {
     console.log('Connected to mongodb')
 })
 
+console.log(__dirname)
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'))
     app.get('*', (req, res) => {
