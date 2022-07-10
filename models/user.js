@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
         unique: true
     },
@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    gallery:[],
     interests: [{type: mongoose.Types.ObjectId, ref: 'interest'}],
 }, {
     timestamps: true

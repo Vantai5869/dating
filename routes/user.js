@@ -8,7 +8,7 @@ router.get('/test',(req, res)=>{
 })
 
 router.post('/', userCtrl.register);
-
+router.post('/login', userCtrl.login);
 router.get('/all', userCtrl.getAll)
 
 router.get('/search', auth, userCtrl.searchUser)

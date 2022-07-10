@@ -10,6 +10,7 @@ import rAuth from './routes/auth.js';
 import rPost from './routes/post.js';
 import rUser from './routes/user.js';
 import rSendMail from './routes/send-mail.js';
+import rmediaUpload from './routes/mediaUpload.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -23,7 +24,7 @@ const http = http1.createServer(app)
 /** MIDDLEWARES */
 
 // CORS Middleware
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 
 // BodyParser Middleware
 app.use(express.json());
@@ -41,7 +42,7 @@ app.use('/api/v1/auth', rAuth);
 app.use('/api/v1/post', rPost);
 app.use('/api/v1/users', rUser);
 app.use('/api/v1/send-mail', rSendMail);
-
+app.use('/api/v1/media', rmediaUpload);
 
 
 const URI = process.env.MONGODB_URL
