@@ -11,12 +11,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import { imageUpload } from "../../helper/imageUpload";
 import Modal from '@mui/material/Modal';
 import './style.css';
+import axiosClient from "../../api/axiosClient";
 
 export default function User() {
   const [userList, setUserList] = useState();
   const [images, setImages] = useState([])
   const [isFetching, setIsFetching] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
   
   useEffect(() => {
          setIsFetching(true);
@@ -31,7 +35,7 @@ export default function User() {
                   setIsFetching(false);
  
                  if (response) {
-                     setUserList(response);
+                     setUserList(response.users);
                  } else {
                  }
              } catch (error) {
@@ -70,7 +74,7 @@ const handleChangeImages = e => {
     for (var i = 0; i < res.length; i++) {
         arr.push(res[i].url)
     }
-     
+    console.log(arr);
   } catch (error) {
     toast.error(error)
   }
@@ -121,13 +125,13 @@ const handleChangeImages = e => {
           <TableBody>
             {userList &&
               userList.length > 0 &&
-              userList.map((row) => (
+              userList.map((row, id) => (
                 <TableRow
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell>{row?.id}</TableCell>
-                  <TableCell>{row?.avatar}</TableCell>
+                  <TableCell>{id+1}</TableCell>
+                  <TableCell><img src={row?.avatar} width={120} height={150}></img></TableCell>
                   <TableCell>{row?.username}</TableCell>
                   <TableCell align="center">{row?.email}</TableCell>
                   <TableCell align="center">{row?.role}</TableCell>
@@ -173,9 +177,9 @@ const handleChangeImages = e => {
             }}>
                 <h2 id="parent-modal-title">Tạo User</h2>
 
-                <input type="text" className="textInput" placeholder="Nhập tên user"/>
-                <input type="text" className="textInput" placeholder="Nhập tên user"/>
-                <input type="text" className="textInput" placeholder="Nhập tên user"/>
+                <input type="text" className="textInput" onChange={(e) => setUsername(e.target.value)} name="username" placeholder="Nhập tên user"/>
+                <input type="text" className="textInput" onChange={(e) => setEmail(e.target.value)} name="email" placeholder="Nhập email"/>
+                <input type="text" className="textInput" onChange={(e) => setAddress(e.target.value)} name="address" placeholder="Nhập quê quán"/>
 
                 <div className="textimage"> Ảnh Product: </div>
                 <span className="btn-file">
@@ -184,10 +188,10 @@ const handleChangeImages = e => {
 
                 <div className="groupButtonBrand">
                     <div onClick={()=>setOpen(false)}>
-                        <Button variant="contained" >Hủy Tạo</Button> 
+						<Button variant="contained" >Hủy Tạo</Button> 
                     </div>
                     <div>   
-                      <Button variant="contained" onClick={formDataUploadServer} >Tạo mới</Button> 
+						<Button variant="contained" onClick={formDataUploadServer} >Tạo mới</Button> 
                     </div>
                 </div>
 

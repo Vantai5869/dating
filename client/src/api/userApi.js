@@ -10,7 +10,7 @@ const userApi = {
     return axiosClient.post(url, data);
   },
   getAll(p=null) {
-    const url = "user/all";
+    const url = "users/";
     return axiosClient.get(url,p);
   },
 };
