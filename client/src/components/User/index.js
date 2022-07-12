@@ -18,9 +18,6 @@ export default function User() {
   const [images, setImages] = useState([])
   const [isFetching, setIsFetching] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
   
   useEffect(() => {
          setIsFetching(true);
@@ -95,9 +92,6 @@ const handleChangeImages = e => {
           </Breadcrumbs>
         </Box>
       </Box>
-      <div className="brandCreate" onClick={()=>setOpen(true)}>
-            <Button variant="contained" >Tạo User</Button>
-        </div>
 
       <Box margin="20px 0 40px">
         <Table
@@ -155,50 +149,7 @@ const handleChangeImages = e => {
           </TableBody>
         </Table>
       </Box>
-
-        {/* Create */}
-        <Modal
-            open={open}
-            onClose={()=>{}}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-        >
-            <Box sx={{    
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              pt: 2,
-              px: 4,
-              pb: 3,
-              width: 600 
-            }}>
-                <h2 id="parent-modal-title">Tạo User</h2>
-
-                <input type="text" className="textInput" onChange={(e) => setUsername(e.target.value)} name="username" placeholder="Nhập tên user"/>
-                <input type="text" className="textInput" onChange={(e) => setEmail(e.target.value)} name="email" placeholder="Nhập email"/>
-                <input type="text" className="textInput" onChange={(e) => setAddress(e.target.value)} name="address" placeholder="Nhập quê quán"/>
-
-                <div className="textimage"> Ảnh Product: </div>
-                <span className="btn-file">
-                  Chọn ảnh<input type="file" multiple onChange={handleChangeImages} />
-                </span>
-
-                <div className="groupButtonBrand">
-                    <div onClick={()=>setOpen(false)}>
-						<Button variant="contained" >Hủy Tạo</Button> 
-                    </div>
-                    <div>   
-						<Button variant="contained" onClick={formDataUploadServer} >Tạo mới</Button> 
-                    </div>
-                </div>
-
-            </Box>
-
-        </Modal>
-
+       
       <ToastContainer
         position="top-right"
         autoClose={1000}
