@@ -401,6 +401,16 @@ deleteUser : async(req, res) => {
 
 },
  getByPage : async(req, res) => {
+    const pageOptions = {
+        page: +req.params.page || 0,
+        limit: +req.params.limit || 10
+    }
+    let searchOption={}
+    if(req.query.search && req.query.search!=''){
+        searchOption ={ 
+            username: { $regex: req.query.search, $options: "i" },
+        }
+    }
     let ageCond ={}
     let genderCond ={}
     let except=[""]
@@ -416,12 +426,19 @@ deleteUser : async(req, res) => {
     }
     try {
         const users = await Users.find({
+            ...searchOption,
             $and: [
                 ageCond,
                 genderCond,
             ],
             _id: { $ne: req.query?.except }
         
+        },
+        null,
+        {
+            sort:{_id:-1},
+            skip:pageOptions?.page * pageOptions?.limit,
+            limit:pageOptions?.limit
         }).select('-password')
         
         res.status(200).json(users)
@@ -439,9 +456,9 @@ deleteUser : async(req, res) => {
     //         }
     //     }
     //     else{
-    //         searchOption ={ 
-    //             username: { $regex: req.query.search, $options: "i" },
-    //         }
+            // searchOption ={ 
+            //     username: { $regex: req.query.search, $options: "i" },
+            // }
     //     }
     // }
     
@@ -453,13 +470,13 @@ deleteUser : async(req, res) => {
     
     // try {
     //     const users= await UserModel.find(
-    //         searchOption,
-    //         null,
-    //         {
-    //             sort:{_id:-1},
-    //             skip:pageOptions?.page * pageOptions?.limit,
-    //             limit:pageOptions?.limit
-    //         }).select('-password')
+            // searchOption,
+            // null,
+            // {
+            //     sort:{_id:-1},
+            //     skip:pageOptions?.page * pageOptions?.limit,
+            //     limit:pageOptions?.limit
+            // }).select('-password')
     //     if(!users){
     //         return res.status(500);
     //     }
