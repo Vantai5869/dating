@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     role: {type: String, default: 'user'},
-    gender: {type: String, default: 'male'},
+    gender: {type: String},
     mobile: {type: String, default: ''},
     address: {type: String, default: ''},
     story: {
@@ -41,6 +41,9 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     gallery:[],
+    dateBirth:Number,
+    monthBirth:Number,
+    yearBirth:Number,
     interests: [{type: mongoose.Types.ObjectId, ref: 'interest'}],
 }, {
     timestamps: true

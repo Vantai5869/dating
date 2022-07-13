@@ -150,8 +150,8 @@ const getMessagesByUserId=async(req, res)=>{
             const participants =  participantController.getInfoForRoom(roomid, req.params.userId)
             Promise.all([room, participants]).then(([a1,a2] )=> {
                 let result = {...a1,...a2}
-                const {roomId:{_id} , userId:sender ,content, type, avatar, name, updatedAt,readBy} = result
-                result={_id,sender,content, type, avatar, name,readBy, updatedAt}
+                const {roomId, userId ,content, type, avatar, name, updatedAt,readBy} = result
+                result={_id:roomId,userId,content, type, avatar, name,readBy, updatedAt}
                 resolve(result)
             })
         })

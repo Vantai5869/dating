@@ -6,7 +6,10 @@ const messageSchema = new mongoose.Schema({
     roomId:String,
     content: String,
     type: String,
-    readBy:[],
+    readBy:{
+        type:[],
+        default:[1]
+    },
     createdAt:   Number,
     updatedAt: Number,
 }, {

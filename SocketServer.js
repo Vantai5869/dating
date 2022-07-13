@@ -30,7 +30,10 @@ const getUser = (userId) => {
 
 const emitToMany =(emitName,arrId,data)=> {
   for(let i = 0; i < arrId.length; i++){
-    io.to(arrId[i]).emit(emitName,data);
+    console.log('arrId[i]')
+    console.log(arrId[i].toString())
+    if(arrId[i].toString()!==data?.userId._id)
+    io.to(arrId[i].toString()).emit(emitName,data);
   }
   return
 };
@@ -89,7 +92,7 @@ const SocketServer = (socket) => {
   
     //take userId and socketId from user
     socket.on("JOIN_ROOM", (userId) => {
-      console.log("=> đã join"+userId)
+      console.log("----------------=> đã join"+userId)
       addUser(userId, socket.id);
       socket.join(userId);
       // io.emit("getUsers", users);
@@ -123,8 +126,11 @@ const SocketServer = (socket) => {
         const message =createMessage(data)
         if(message) socket.emit("resSendMessage",{success:false})
       }
+      
       const participants =await participantController.getParticipantIds(data.roomId);
-      // emitToMany('getMessage',participants.length>0?participants:data?.userIds ,data)
+      console.log('participants')
+      console.log(participants)
+      emitToMany('getMessage',participants.length>0?participants:data?.userIds ,data)
       // sendToUserDevice('eN-kLZGUQ624Vu38DS91Vq:APA91bE00V6AoWbc4naMStWhuS4LxRqpYuh2gMrehZI1zbfcLlJBQdblkNbwGj1F3R0wsgKi-QqSwfXeKNHKVNbRb4GDI_V2dUOvU6M7dySCh2Znn3o5Y9cU1CiXn9nMFBZ87FCu-P9D',data)
       // sendToUserDevice('cP1ZBnQsQ7-7C-uongdRNS:APA91bFiFBSQzCzPt_awwmMn7kmga0aQGB0gb_dpFYCoqR0FTBkdg1axFJGItxuGzbB4NW_pVoV-eqBTi5WMkvh_J9EKdtgRuBKobOwAYBpZTXCQ8tYGYfQKLNHzZ_ceD-t6IlpF8MrY',data)
     });
@@ -173,6 +179,17 @@ const SocketServer = (socket) => {
     // endCall
     socket.on('EndCall', data=>{
       socket.emit('EndCall')
+    })
+
+    socket.on('SEEN',async data=>{
+      const participants =await participantController.getParticipantIds(data.roomId);
+      if(participants)
+      for(let i = 0; i < participants.length; i++){
+        // if(participants[i].toString()!==data?.seenerId){
+          io.to(participants[i].toString()).emit('SEEN',data);
+
+        // }
+      }
     })
 } 
 

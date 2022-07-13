@@ -13,9 +13,9 @@ router.post('/', (req, res) => {
   });
 
   var mailOptions = {
-    from: 'phamvantai22027@gmail.com',
+    from: 'Dating App KMA',
     to: email,
-    subject: 'Sending Email using Node.js',
+    subject: 'Dating App KMA',
     html: `${content}`
   };
 

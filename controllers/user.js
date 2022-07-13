@@ -401,53 +401,81 @@ deleteUser : async(req, res) => {
 
 },
  getByPage : async(req, res) => {
-    let searchOption={}
-    if(req.query.search && req.query.search!=''){
-        let y=req.query.search
-        let x=y.slice(0,1)[0]
-        if(x==0||x==8){
-            searchOption ={ 
-                phone: { $regex: req.query.search, $options:"i"}
-            }
-        }
-        else{
-            searchOption ={ 
-                username: { $regex: req.query.search, $options: "i" },
-            }
+    let ageCond ={}
+    let genderCond ={}
+    let except=[""]
+    if(+req.query?.minAge&& +req.query?.maxAge){
+        ageCond= {'yearBirth': {$gte:new Date().getFullYear() -req.query?.maxAge , $lte:new Date().getFullYear() -req.query?.minAge } } 
+    }
+    if(req.query?.gender){
+        if(req.query?.gender==='male'){
+            genderCond={"gender" : "male"}
+        }else  if(req.query?.gender==='female'){
+            genderCond={"gender" : "female"}
         }
     }
+    try {
+        const users = await Users.find({
+            $and: [
+                ageCond,
+                genderCond,
+            ],
+            _id: { $ne: req.query?.except }
+        
+        }).select('-password')
+        
+        res.status(200).json(users)
+    } catch (err) {
+        return res.status(500).json({msg: err.message})
+    }
+
+    // let searchOption={}
+    // if(req.query.search && req.query.search!=''){
+    //     let y=req.query.search
+    //     let x=y.slice(0,1)[0]
+    //     if(x==0||x==8){
+    //         searchOption ={ 
+    //             phone: { $regex: req.query.search, $options:"i"}
+    //         }
+    //     }
+    //     else{
+    //         searchOption ={ 
+    //             username: { $regex: req.query.search, $options: "i" },
+    //         }
+    //     }
+    // }
     
      
-    const pageOptions = {
-        page: +req.params.page || 0,
-        limit: +req.params.limit || 10
-    }
+    // const pageOptions = {
+    //     page: +req.params.page || 0,
+    //     limit: +req.params.limit || 10
+    // }
     
-    try {
-        const users= await UserModel.find(
-            searchOption,
-            null,
-            {
-                sort:{_id:-1},
-                skip:pageOptions?.page * pageOptions?.limit,
-                limit:pageOptions?.limit
-            }).select('-password')
-        if(!users){
-            return res.status(500);
-        }
-        return  res.status(200).json({
-                success:true,
-                message: `get success`,
-                data: users,
-            })
+    // try {
+    //     const users= await UserModel.find(
+    //         searchOption,
+    //         null,
+    //         {
+    //             sort:{_id:-1},
+    //             skip:pageOptions?.page * pageOptions?.limit,
+    //             limit:pageOptions?.limit
+    //         }).select('-password')
+    //     if(!users){
+    //         return res.status(500);
+    //     }
+    //     return  res.status(200).json({
+    //             success:true,
+    //             message: `get success`,
+    //             data: users,
+    //         })
       
-    } catch (error) {
-        return res.status(500).json({
-            success:false,
-            message: 'get user not successful',
-            error:error
-        })
-    }
+    // } catch (error) {
+    //     return res.status(500).json({
+    //         success:false,
+    //         message: 'get user not successful',
+    //         error:error
+    //     })
+    // }
 
 },
 
