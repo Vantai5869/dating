@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         maxlength: 25,
-        unique: true
+        // unique: true
     },
     email: {
         type: String,
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
         default: ''
     },
     about: {type: String, default: ''},
-    avatar: {type: String},
+    avatar: {type: String, default: 'https://res.cloudinary.com/dueyjeqd5/image/upload/v1657702541/v-network/iszpkgbxxjzxxicgoiyi.jpg'},
     active:  {
         type: Boolean,
         default: false

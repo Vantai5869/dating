@@ -132,9 +132,9 @@ const userCtrl = {
 },
 
 register : async (req, res) => {
-    if(!req.body.phone || !req.body.username|| !req.body.password)return  res.status(400).json({
+    if( !req.body.username|| !req.body.password)return  res.status(400).json({
         success: false,
-        message: 'phone|username|password field not found'
+        message: 'username|password field not found'
     });
 
     let { phone, password,...rest } = req.body;
