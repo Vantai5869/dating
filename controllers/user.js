@@ -231,7 +231,6 @@ const userCtrl = {
         message: "email|phone|password field not found",
       });
     let { email, phone, password } = req.body;
-    console.log(req.body);
     try {
       let users;
       if (email) {
@@ -461,12 +460,6 @@ const userCtrl = {
       }
     }
     try {
-      const users = await Users.find({
-        $and: [ageCond, genderCond],
-        _id: { $ne: req.query?.except },
-      }).select("-password");
-
-      res.status(200).json(users);
       const users = await Users.find(
         {
           ...searchOption,
