@@ -29,6 +29,7 @@ const getUser = (userId) => {
 };
 
 const emitToMany =(emitName,arrId,data)=> {
+  if(arrId?.length>0)
   for(let i = 0; i < arrId.length; i++){
     console.log('arrId[i]')
     console.log(arrId[i].toString())
