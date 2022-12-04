@@ -279,6 +279,7 @@ const userCtrl = {
                     email: users[0].email,
                     username: users[0].username,
                     avatar: users[0].avatar,
+                    avatar: users[0].active,
                   },
                 });
               }
