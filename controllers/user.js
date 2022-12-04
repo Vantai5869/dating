@@ -596,6 +596,27 @@ const userCtrl = {
         res.json({ users: records });
       });
   },
+
+  
+ updateActiveUser: async (req, res) => {
+ 
+  try {
+  
+    if (!req?.user?._id)
+      return res.status(400).json({ msg: "Please add your full name." });
+
+    await Users.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+       active:true
+      }
+    );
+
+    res.json({ msg: "Update Success!" });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+}
 };
 
 export default userCtrl;
