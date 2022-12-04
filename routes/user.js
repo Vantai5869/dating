@@ -29,12 +29,11 @@ const router = express.Router();
 //================================================================
 // get getRecommend
 
-
+router.post('/active', userController.updateActiveUser);
 router.get('/auth/validate', userController.validateToken);
 router.get('/:page/:limit', userController.getByPage);
 router.get('/', userController.getAllUsers);
 router.post('/', userController.register);
-router.post('/active', userController.updateActiveUser);
 router.get('/:id', userController.getUser);
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);

@@ -599,14 +599,11 @@ const userCtrl = {
 
   
  updateActiveUser: async (req, res) => {
- 
   try {
-  
-    if (!req?.user?._id)
+    if (!req?.body?._id)
       return res.status(400).json({ msg: "Please add your full name." });
-
     await Users.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.body._id },
       {
        active:true
       }
