@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import InterestModel from "../models/interest.js";
 
 const interestCtrl = {

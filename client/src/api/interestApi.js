@@ -1,13 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const interestApi = {
-  getAll(p = null) {
+  getAll() {
     const url = "interests/";
-    return axiosClient.get(url, p);
+    return axiosClient.get(url);
   },
-  create() {
+  create(data) {
     const url = "interests/";
-    return axiosClient.post(url, p);
+    return axiosClient.post(url, data);
   },
   delete(id) {
     const url = `interests/${id}`;
