@@ -17,7 +17,6 @@ let users = [];
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
     users.push({ userId, socketId });
-    console.log(users);
 };
 
 const removeUser = (socketId) => {
@@ -29,17 +28,22 @@ const getUser = (userId) => {
 };
 
 const emitToMany =(emitName,arrId,data)=> {
+  console.log({arrId})
+  console.log({data})
   for(let i = 0; i < arrId.length; i++){
-    console.log('arrId[i]')
-    console.log(arrId[i].toString())
-    if(arrId[i].toString()!==data?.userId._id)
-    io.to(arrId[i].toString()).emit(emitName,data);
+    if(emitName!='call'){
+      if(arrId[i].toString()!==data?.data?.userId?._id){
+        io.to(arrId[i].toString()).emit(emitName,data);
+      }
+    }else{
+      io.to(arrId[i].toString()).emit(emitName,data);
+    }
   }
   return
 };
 
 const getOpentok=(data)=>{
-  const opentok = new OpenTok('47402891', '80eea7a73596b3e1414a74eaa1224f017b13a2bf');
+  const opentok = new OpenTok('47636631', '4f5fd2ade2cbe7217a2875fc092183b831600700');
   let sessionId;
   opentok.createSession({}, function(error, session) {
     if (error) {
@@ -100,17 +104,15 @@ const SocketServer = (socket) => {
   
     //send and get message
     socket.on("sendMessage",async (data) => {
-      console.log('----------------sendMessage------------------------------')
-      console.log('----------------sendMessage------------------------------')
-      console.log('----------------sendMessage------------------------------')
-      console.log('----------------sendMessage------------------------------')
-      console.log(data)
       /**
        * b1 kiem tra  roomId co trong db chua
        * b2 neu co thi nghia la can kiem tra xem nhung user trong userIds co phong hay chua 
        * b3 chưa co phong thi tao phong=>them vao phong. neu co roi thi sang tao tin nhan
        */
       const isExist = await checkRoom(data)
+      if(isExist==false){
+        socket.emit("createGroupSuccess",{isCreated:true})
+      }
       if(isExist=='err'){
         socket.emit("resSendMessage",{success:false})
       }else if(isExist){
@@ -128,8 +130,6 @@ const SocketServer = (socket) => {
       }
       
       const participants =await participantController.getParticipantIds(data.roomId);
-      console.log('participants')
-      console.log(participants)
       emitToMany('getMessage',participants.length>0?participants:data?.userIds ,data)
       // sendToUserDevice('eN-kLZGUQ624Vu38DS91Vq:APA91bE00V6AoWbc4naMStWhuS4LxRqpYuh2gMrehZI1zbfcLlJBQdblkNbwGj1F3R0wsgKi-QqSwfXeKNHKVNbRb4GDI_V2dUOvU6M7dySCh2Znn3o5Y9cU1CiXn9nMFBZ87FCu-P9D',data)
       // sendToUserDevice('cP1ZBnQsQ7-7C-uongdRNS:APA91bFiFBSQzCzPt_awwmMn7kmga0aQGB0gb_dpFYCoqR0FTBkdg1axFJGItxuGzbB4NW_pVoV-eqBTi5WMkvh_J9EKdtgRuBKobOwAYBpZTXCQ8tYGYfQKLNHzZ_ceD-t6IlpF8MrY',data)
@@ -145,8 +145,8 @@ const SocketServer = (socket) => {
     // call
     socket.on("call", async (data)=>{
       // tao mess
-      const message =createMessage({...data, content:"đã bắt đầu cuộc gọi."})
-      if(!message) socket.emit("resSendMessage",{success:false})
+      // const message =createMessage({...data, content:"đã bắt đầu cuộc gọi."})
+      // if(!message) socket.emit("resSendMessage",{success:false})
   
       if(data?.userIds){
         if(data.userIds?.length>0){
@@ -190,6 +190,17 @@ const SocketServer = (socket) => {
 
         // }
       }
+    })
+
+    socket.on('DeleteMessage', async data=>{
+      try {
+        const participants =await participantController.getParticipantIds(data.roomId);
+        if(participants && participants?.length>0)
+        emitToMany('DeleteMessage',participants, data)
+      } catch (error) {
+        
+      }
+     
     })
 } 
 
